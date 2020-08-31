@@ -83,6 +83,19 @@ function moveLeft() {
     }
 }
 
+function moveRight() {
+    move();
+    currentDirection = "E";
+    let temp = snake[0];
+    let temp2 = 0;
+    snake[0] = snake[0] + 1;
+    for (let i = 1; i < snake.length; i++){
+        temp2 = snake[i];
+        snake[i] = temp;
+        temp = temp2;
+    }
+}
+
 
 function startGame() {
     $(".start-button").remove();
