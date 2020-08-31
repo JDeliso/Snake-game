@@ -12,7 +12,6 @@ let currentEggLocation;
 // generates the snake each tick
 function generateSnake() {
     let $cell = $('.cell');
-    console.log($cell);
     for (let i = 0; i < snake.length; i++) {
         for (let j in $cell) {
             if (j == snake[i]) {
@@ -32,7 +31,7 @@ function generateBoard(size) {
         const $cell = $("<div class='cell'></div>");
         $cell.textext = (i + 1);
         $gameBoard.append($cell);
-  };
+    };
 };
 
 // generates an egg when needed
@@ -124,7 +123,26 @@ function moveDown() {
 
 function detectInput() {
     document.addEventListener('keydown', function(e) {
-        return e.keyCode;
+        // Left Input
+        if ((e.keyCode == 37 && currentDirection == "N") || (e.keyCode == 37 && currentDirection == "S")) {
+            moveLeft();
+            generateSnake();
+        }
+        // Up input
+        if ((e.keyCode == 38 && currentDirection == "W") || (e.keyCode == 38 && currentDirection == "E")) {
+            moveUp();
+            generateSnake();
+        }
+        // right input
+        if ((e.keyCode == 39 && currentDirection == "N") || (e.keyCode == 39 && currentDirection == "S")) {
+            moveRight();
+            generateSnake();
+        }
+        // down input
+        if ((e.keyCode == 40 && currentDirection == "W") || (e.keyCode == 40 && currentDirection == "E")) {
+            moveDown();
+            generateSnake();
+        }
     });
 }
 
