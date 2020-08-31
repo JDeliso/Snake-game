@@ -6,6 +6,7 @@ const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
 
 
+
 // generates the snake each tick
 function generateSnake() {
     let $cell = $('.cell');
@@ -32,10 +33,34 @@ function generateBoard(size) {
   };
 };
 
+
+function generateEgg() {
+    let eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
+    let validEgg = true;
+    for (let i = 0; i < snake.length; i++){
+        if (eggLocation == snake[i]) {
+            validEgg = false;
+        }
+        if (validEgg) {
+            let $cell = $('.cell');
+            for (let j in $cell) {
+                if (j == eggLocation) {
+                    const $eggCell = $cell[j];
+                    $eggCell.classList.add("egg-cell");
+                }
+            }
+        }
+        else {
+            generateEgg();
+        }
+    }
+}
+
 function startGame() {
     $(".start-button").remove();
     generateBoard(gameSize);
     generateSnake();
+    generateEgg();
 }
 
 
