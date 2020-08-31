@@ -2,12 +2,14 @@
     --grid-size: 1;
 }
 
-section {
-    max-width: 75vh;
-    max-height: 75vh;
+.start-button {
+    align-self: center;
+    justify-self: center;
 }
 
 .game-board{
+    width: 75vh;
+    height: 75vh;
     background-color: gray;
     display: grid;
     margin: auto;
@@ -20,7 +22,14 @@ section {
 
 .cell {
     padding: 1em;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     text-align: center;
 
+}
+
+.snake-cell{
+    padding: 1em;
+    border: 1px solid gray;
+    text-align: center;
+    background-color: black;
 }
