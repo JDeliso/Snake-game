@@ -18,7 +18,6 @@ function generateSnake() {
             if (j == snake[i]) {
                 const $snakeCell = $cell[j];
                 $snakeCell.classList.add("snake-cell");
-                console.log($snakeCell);
             }
         }
     }
@@ -35,26 +34,24 @@ function generateBoard(size) {
     };
 };
 
-// generates an egg when needed
 function generateEgg() {
-    let eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
-    let validEgg = true;
-    for (let i = 0; i < snake.length; i++){
-        if (eggLocation == snake[i]) {
-            validEgg = false;
-        }
-        if (validEgg) {
-            let $cell = $('.cell');
-            currentEggLocation = eggLocation;
-            for (let j in $cell) {
-                if (j == eggLocation) {
-                    const $eggCell = $cell[j];
-                    $eggCell.classList.add("egg-cell");
-                }
+    let validEgg = false;
+    let eggLocation;
+    while (!validEgg) {
+        validEgg = true;
+        eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
+        for (let i = 0; i < snake.length; i++) {
+            if (eggLocation == snake[i]) {
+                validEgg = false;
             }
         }
-        else {
-            generateEgg();
+    }
+    let $cell = $('.cell');
+    currentEggLocation = eggLocation;
+    for (let j in $cell) {
+        if (j == eggLocation) {
+            const $eggCell = $cell[j];
+            $eggCell.classList.add("egg-cell");
         }
     }
 }
@@ -190,7 +187,7 @@ function startGame() {
     generateSnake();
     generateEgg();
     detectInput();
-    const game = setInterval(mainLoop, 200);
+    const game = setInterval(mainLoop, 125);
 }
 
 
