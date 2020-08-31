@@ -5,8 +5,8 @@ const gameSize = 20;
 const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
 let currentDirection = 'N';
-let currentEggLocation;
-let newSnakeSegment;
+let currentEggLocation, newSnakeSegment;
+let willGrow = false;
 
 
 
@@ -148,13 +148,24 @@ function detectInput() {
 }
 
 function eggPickup() {
-    if (snake[0] == eggLocation) {
+    if (snake[0] == currentEggLocation) {
         newSnakeSegment = snake[snake.length - 1];
+        $cell = $('.cell');
+        $cell[currentEggLocation].classList.remove("egg-cell");
         generateEgg();
+        willGrow = true;
+    }
+}
+
+function grow() {
+    if (willGrow) {
+        snake.push(newSnakeSegment);
+        willGrow = false;
     }
 }
 
 function mainLoop() {
+    eggPickup();
     switch (currentDirection) {
         case "W":
             moveLeft();
@@ -169,6 +180,7 @@ function mainLoop() {
             moveDown();
             break;
     }
+    grow();
 }
 
 
