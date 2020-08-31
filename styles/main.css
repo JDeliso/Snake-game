@@ -1,0 +1,26 @@
+:root {
+    --grid-size: 1;
+}
+
+section {
+    max-width: 75vh;
+    max-height: 75vh;
+}
+
+.game-board{
+    background-color: gray;
+    display: grid;
+    margin: auto;
+    grid-gap: 0;
+    grid-template-rows: repeat(var(--grid-size), .5fr);
+    grid-template-columns: repeat(var(--grid-size), .5fr);
+
+
+}
+
+.cell {
+    padding: 1em;
+    border: 1px solid black;
+    text-align: center;
+
+}
