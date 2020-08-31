@@ -4,6 +4,8 @@ const $gameBoard = $(".game-board");
 const gameSize = 20;
 const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
+let currentDirection = 'N';
+let currentEggLocation;
 
 
 
@@ -33,7 +35,7 @@ function generateBoard(size) {
   };
 };
 
-
+// generates an egg when needed
 function generateEgg() {
     let eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
     let validEgg = true;
@@ -43,6 +45,7 @@ function generateEgg() {
         }
         if (validEgg) {
             let $cell = $('.cell');
+            currentEggLocation = eggLocation;
             for (let j in $cell) {
                 if (j == eggLocation) {
                     const $eggCell = $cell[j];
@@ -55,6 +58,31 @@ function generateEgg() {
         }
     }
 }
+
+function move() {
+    const tail = snake[snake.length - 1];
+    let $cell = $('.cell');
+    for (let i in $cell) {
+        if (i == tail) {
+            const $tail = $cell[i];
+            $tail.classList.remove("snake-cell");
+        }
+    }
+}
+
+function moveLeft() {
+    move();
+    currentDirection = "W";
+    let temp = snake[0];
+    let temp2 = 0;
+    snake[0] = snake[0] - 1;
+    for (let i = 1; i < snake.length; i++){
+        temp2 = snake[i];
+        snake[i] = temp;
+        temp = temp2;
+    }
+}
+
 
 function startGame() {
     $(".start-button").remove();
