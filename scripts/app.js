@@ -6,6 +6,7 @@ const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
 let currentDirection = 'N';
 let currentEggLocation;
+let newSnakeSegment;
 
 
 
@@ -80,6 +81,7 @@ function moveLeft() {
         snake[i] = temp;
         temp = temp2;
     }
+    generateSnake();
 }
 
 function moveRight() {
@@ -93,6 +95,7 @@ function moveRight() {
         snake[i] = temp;
         temp = temp2;
     }
+    generateSnake();
 }
 
 function moveUp() {
@@ -106,6 +109,7 @@ function moveUp() {
         snake[i] = temp;
         temp = temp2;
     }
+    generateSnake();
 }
 
 function moveDown() {
@@ -119,32 +123,54 @@ function moveDown() {
         snake[i] = temp;
         temp = temp2;
     }
+    generateSnake();
 }
 
 function detectInput() {
     document.addEventListener('keydown', function(e) {
         // Left Input
         if ((e.keyCode == 37 && currentDirection == "N") || (e.keyCode == 37 && currentDirection == "S")) {
-            moveLeft();
-            generateSnake();
+            currentDirection = "W";
         }
         // Up input
         if ((e.keyCode == 38 && currentDirection == "W") || (e.keyCode == 38 && currentDirection == "E")) {
-            moveUp();
-            generateSnake();
+            currentDirection = "N";
         }
         // right input
         if ((e.keyCode == 39 && currentDirection == "N") || (e.keyCode == 39 && currentDirection == "S")) {
-            moveRight();
-            generateSnake();
+            currentDirection = "E";
         }
         // down input
         if ((e.keyCode == 40 && currentDirection == "W") || (e.keyCode == 40 && currentDirection == "E")) {
-            moveDown();
-            generateSnake();
+            currentDirection = "S";
         }
     });
 }
+
+function eggPickup() {
+    if (snake[0] == eggLocation) {
+        newSnakeSegment = snake[snake.length - 1];
+        generateEgg();
+    }
+}
+
+function mainLoop() {
+    switch (currentDirection) {
+        case "W":
+            moveLeft();
+            break;
+        case "N":
+            moveUp();
+            break;
+        case "E":
+            moveRight();
+            break;
+        case "S":
+            moveDown();
+            break;
+    }
+}
+
 
 function startGame() {
     $(".start-button").remove();
@@ -152,6 +178,7 @@ function startGame() {
     generateSnake();
     generateEgg();
     detectInput();
+    const game = setInterval(mainLoop, 200);
 }
 
 
