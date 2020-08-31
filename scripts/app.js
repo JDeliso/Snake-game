@@ -122,11 +122,18 @@ function moveDown() {
     }
 }
 
+function detectInput() {
+    document.addEventListener('keydown', function(e) {
+        return e.keyCode;
+    });
+}
+
 function startGame() {
     $(".start-button").remove();
     generateBoard(gameSize);
     generateSnake();
     generateEgg();
+    detectInput();
 }
 
 

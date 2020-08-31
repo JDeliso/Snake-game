@@ -27,16 +27,17 @@
 
 }
 
-.snake-cell{
-    padding: 1em;
-    border: 1px solid gray;
-    text-align: center;
-    background-color: black;
-}
 
 .egg-cell {
     padding: 1em;
     border: 1px solid gray;
     text-align: center;
     background-color: orange;
+}
+
+.snake-cell{
+    padding: 1em;
+    border: 1px solid gray;
+    text-align: center;
+    background-color: black;
 }
