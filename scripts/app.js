@@ -68,11 +68,11 @@ function move() {
 }
 
 function moveLeft() {
-    move();
     currentDirection = "W";
     let temp = snake[0];
     let temp2 = 0;
     snake[0] = snake[0] - 1;
+    move();
     for (let i = 1; i < snake.length; i++){
         temp2 = snake[i];
         snake[i] = temp;
@@ -82,11 +82,11 @@ function moveLeft() {
 }
 
 function moveRight() {
-    move();
     currentDirection = "E";
     let temp = snake[0];
     let temp2 = 0;
     snake[0] = snake[0] + 1;
+    move();
     for (let i = 1; i < snake.length; i++){
         temp2 = snake[i];
         snake[i] = temp;
@@ -96,11 +96,11 @@ function moveRight() {
 }
 
 function moveUp() {
-    move();
     currentDirection = "N";
     let temp = snake[0];
     let temp2 = 0;
     snake[0] = snake[0] - gameSize;
+    move();
     for (let i = 1; i < snake.length; i++){
         temp2 = snake[i];
         snake[i] = temp;
@@ -110,11 +110,11 @@ function moveUp() {
 }
 
 function moveDown() {
-    move();
     currentDirection = "S";
     let temp = snake[0];
     let temp2 = 0;
     snake[0] = snake[0] + gameSize;
+    move();
     for (let i = 1; i < snake.length; i++){
         temp2 = snake[i];
         snake[i] = temp;
@@ -169,12 +169,38 @@ function touchTail() {
     }
 }
 
+function westWallCheck() {
+    for (let i = -1; i < gameSize * gameSize; i = i + 20){
+        if (snake[0] == i) {
+            return true;
+        }
+    }
+}
+
 function touchWall() {
     if (snake[0] < 1) {
         return true;
     }
     else if (snake[0] > gameSize * gameSize) {
         return true;
+    }
+    else if ((currentDirection == "E") && (snake[0] % gameSize == 0)) {
+        cutSnake();
+        return true;
+    }
+    else if ((currentDirection == "W") && (westWallCheck())) {
+        cutSnake();
+        return true;
+    }
+}
+
+function cutSnake() {
+    const $cell = $(".cell");
+    for (let i in $cell) {
+        if (i == snake[0]) {
+            const $snakeHead = $cell[i];
+            $snakeHead.classList.remove("snake-cell");
+        }
     }
 }
 
@@ -186,24 +212,28 @@ function startGame() {
     detectInput();
     const game = setInterval(function () {
         eggPickup();
-    switch (currentDirection) {
-        case "W":
-            moveLeft();
-            break;
-        case "N":
-            moveUp();
-            break;
-        case "E":
-            moveRight();
-            break;
-        case "S":
-            moveDown();
-            break;
-    }
-    if (touchTail()) {
-        console.log("uh oh");
-        clearInterval(game);
-    }
+        switch (currentDirection) {
+            case "W":
+                moveLeft();
+                break;
+            case "N":
+                moveUp();
+                break;
+            case "E":
+                moveRight();
+                break;
+            case "S":
+                moveDown();
+                break;
+        }
+        if (touchTail()) {
+            console.log("uh oh");
+            clearInterval(game);
+        }
+        if (touchWall()) {
+            console.log("uh oh");
+            clearInterval(game);
+        }
     grow();
     }, 75);
 }
