@@ -161,8 +161,31 @@ function grow() {
     }
 }
 
-function mainLoop() {
-    eggPickup();
+function touchTail() {
+    for (let i = 1; i < snake.length; i++){
+        if (snake[0] == snake[i]) {
+            return true;
+        }
+    }
+}
+
+function touchWall() {
+    if (snake[0] < 1) {
+        return true;
+    }
+    else if (snake[0] > gameSize * gameSize) {
+        return true;
+    }
+}
+
+function startGame() {
+    $(".start-button").remove();
+    generateBoard(gameSize);
+    generateSnake();
+    generateEgg();
+    detectInput();
+    const game = setInterval(function () {
+        eggPickup();
     switch (currentDirection) {
         case "W":
             moveLeft();
@@ -177,18 +200,14 @@ function mainLoop() {
             moveDown();
             break;
     }
+    if (touchTail()) {
+        console.log("uh oh");
+        clearInterval(game);
+    }
     grow();
+    }, 75);
 }
 
-
-function startGame() {
-    $(".start-button").remove();
-    generateBoard(gameSize);
-    generateSnake();
-    generateEgg();
-    detectInput();
-    const game = setInterval(mainLoop, 125);
-}
 
 
 // Listens for click on the play button, on click removes menu items and generates board
