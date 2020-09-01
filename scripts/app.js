@@ -240,7 +240,7 @@ function startGame() {
             clearInterval(game);
         }
     grow();
-    }, 75);
+    }, 125);
 }
 
 

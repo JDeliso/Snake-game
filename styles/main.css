@@ -10,7 +10,7 @@
 .game-board{
     width: 75vh;
     height: 75vh;
-    background-color: gray;
+    background-color: #8FBC8F;
     display: grid;
     margin: auto;
     grid-gap: 0;
@@ -22,7 +22,6 @@
 
 .cell {
     padding: 1em;
-    /* border: 1px solid black; */
     text-align: center;
 
 }
@@ -30,14 +29,13 @@
 
 .egg-cell {
     padding: 1em;
-    border: 1px solid gray;
-    text-align: center;
-    background-color: orange;
+    border-radius: 50%;
+    background-color: #483D8B;
 }
 
 .snake-cell{
     padding: 1em;
-    border: 1px solid gray;
+    border-radius: 10px;
     text-align: center;
     background-color: black;
 }
