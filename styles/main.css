@@ -2,9 +2,43 @@
     --grid-size: 1;
 }
 
-.start-button {
+body {
+    background-color: #2F4F4F;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    justify-content: center;
+}
+
+.menu {
     align-self: center;
     justify-self: center;
+    font-size: 2em;
+}
+
+.retry {
+    z-index: 4;
+    position: absolute;
+    top: 16em;
+}
+
+.menu:hover {
+    color: #FFF8DC;
+    transform: scale(1.1);
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+.game-over {
+    position: absolute;
+    font-size: 8em;
+    z-index: 4;
+    top: 1.5em;
+    margin: -25px 0 0 -25px;
+    text-align: center;
+}
+
+.game-over span {
+    display: block;
 }
 
 .game-board{

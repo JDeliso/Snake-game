@@ -8,6 +8,7 @@ let currentDirection = 'N';
 let lastDirection = "N";
 let currentEggLocation, newSnakeSegment;
 let willGrow = false;
+let gameSpeed = 75;
 
 
 
@@ -169,6 +170,7 @@ function grow() {
 function touchTail() {
     for (let i = 1; i < snake.length; i++){
         if (snake[0] == snake[i]) {
+            gameOverScreen();
             return true;
         }
     }
@@ -184,17 +186,21 @@ function westWallCheck() {
 
 function touchWall() {
     if (snake[0] < 1) {
+        gameOverScreen();
         return true;
     }
     else if (snake[0] > gameSize * gameSize) {
+        gameOverScreen();
         return true;
     }
     else if ((currentDirection == "E") && (snake[0] % gameSize == 0)) {
         cutSnake();
+        gameOverScreen();
         return true;
     }
     else if ((currentDirection == "W") && (westWallCheck())) {
         cutSnake();
+        gameOverScreen();
         return true;
     }
 }
@@ -207,6 +213,14 @@ function cutSnake() {
             $snakeHead.classList.remove("snake-cell");
         }
     }
+}
+
+function gameOverScreen() {
+    const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
+    const $body = $("body");
+    const $retry = $("<div class='menu retry'>retry</div>");
+    $body.append($gameOver);
+    $body.append($retry);
 }
 
 function startGame() {
@@ -240,7 +254,7 @@ function startGame() {
             clearInterval(game);
         }
     grow();
-    }, 125);
+    }, gameSpeed);
 }
 
 
