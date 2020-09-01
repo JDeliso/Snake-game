@@ -5,6 +5,7 @@ const gameSize = 20;
 const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
 let currentDirection = 'N';
+let lastDirection = "N";
 let currentEggLocation, newSnakeSegment;
 let willGrow = false;
 
@@ -78,6 +79,7 @@ function moveLeft() {
         snake[i] = temp;
         temp = temp2;
     }
+    lastDirection = "W";
     generateSnake();
 }
 
@@ -92,6 +94,7 @@ function moveRight() {
         snake[i] = temp;
         temp = temp2;
     }
+    lastDirection = "E";
     generateSnake();
 }
 
@@ -106,6 +109,7 @@ function moveUp() {
         snake[i] = temp;
         temp = temp2;
     }
+    lastDirection = "N";
     generateSnake();
 }
 
@@ -120,25 +124,26 @@ function moveDown() {
         snake[i] = temp;
         temp = temp2;
     }
+    lastDirection = "S";
     generateSnake();
 }
 
 function detectInput() {
     document.addEventListener('keydown', function(e) {
         // Left Input
-        if ((e.keyCode == 37 && currentDirection == "N") || (e.keyCode == 37 && currentDirection == "S")) {
+        if ((e.keyCode == 37 && lastDirection == "N") || (e.keyCode == 37 && lastDirection == "S")) {
             currentDirection = "W";
         }
         // Up input
-        if ((e.keyCode == 38 && currentDirection == "W") || (e.keyCode == 38 && currentDirection == "E")) {
+        if ((e.keyCode == 38 && lastDirection == "W") || (e.keyCode == 38 && lastDirection == "E")) {
             currentDirection = "N";
         }
         // right input
-        if ((e.keyCode == 39 && currentDirection == "N") || (e.keyCode == 39 && currentDirection == "S")) {
+        if ((e.keyCode == 39 && lastDirection == "N") || (e.keyCode == 39 && lastDirection == "S")) {
             currentDirection = "E";
         }
         // down input
-        if ((e.keyCode == 40 && currentDirection == "W") || (e.keyCode == 40 && currentDirection == "E")) {
+        if ((e.keyCode == 40 && lastDirection == "W") || (e.keyCode == 40 && lastDirection == "E")) {
             currentDirection = "S";
         }
     });
