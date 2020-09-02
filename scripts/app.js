@@ -1,14 +1,15 @@
 console.log("Hello World");
 
-const $gameBoard = $(".game-board");
 const gameSize = 20;
-const snakeStart = Math.floor((gameSize * gameSize) / 2)+(gameSize/2);
+const snakeStart = Math.floor((gameSize * gameSize) / 2) + (gameSize / 2);
+const newSnake = [snakeStart, snakeStart + 20, snakeStart + 40];
 const snake = [snakeStart, snakeStart + 20, snakeStart + 40];
 let currentDirection = 'N';
 let lastDirection = "N";
 let currentEggLocation, newSnakeSegment;
 let willGrow = false;
 let gameSpeed = 75;
+let restartGame = false;
 
 
 
@@ -27,6 +28,7 @@ function generateSnake() {
 
 // generates board on tick start
 function generateBoard(size) {
+    const $gameBoard = $(".game-board");
     $gameBoard.css('--grid-size', size);
     
     for (let i = 0; i < (size * size); i++) {
@@ -218,17 +220,27 @@ function cutSnake() {
 function gameOverScreen() {
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
     const $body = $("body");
-    const $retry = $("<div class='menu retry'>retry</div>");
+    const $retry = $("<div class='retry menu'>retry</div>");
+    const $changeDifficulty = $("<div class='change-difficulty menu'>change difficulty</div>");
     $body.append($gameOver);
     $body.append($retry);
+    $body.append($changeDifficulty);
+    $(".retry").on("click", restart);
+    $(".change-difficulty").on("click", difficultySelect);
+    currentDirection = "N";
 }
 
 function startGame() {
-    $(".start-button").remove();
     generateBoard(gameSize);
+    startTimer();
+    generateSnakeStart();
     generateSnake();
     generateEgg();
     detectInput();
+    setTimeout(mainLoop, 4000);
+}
+
+function mainLoop() {
     const game = setInterval(function () {
         eggPickup();
         switch (currentDirection) {
@@ -257,7 +269,64 @@ function startGame() {
     }, gameSpeed);
 }
 
+function generateSnakeStart() {
+    snake.splice(0, snake.length);
+    for (let i = 0; i < newSnake.length; i++){
+        snake.push(newSnake[i]);
+    }
+}
 
+function restart() {
+    $("body").empty();
+    $("body").append("<section class='game-board'></section>");
+    generateSnake();
+    startGame();
+}
+
+function startTimer() {
+    timerIndex = 3;
+    const timer = setInterval(function () {
+        $(".game-over").remove();
+        if (timerIndex == 0) {
+            return clearInterval(timer);
+        }
+        const $time = $(`<div class='game-over'>${timerIndex}</div>`);
+        $("body").append($time);
+        timerIndex--;
+        currentDirection = "N";
+    }, 1000);
+}
+
+function difficultySelect() {
+    $(".start-button").remove();
+    const $normal = $("<div class='menu normal'>normal</div>");
+    $("body").append($normal);
+    const $hard = $("<div class='menu hard'>hard</div>");
+    $("body").append($hard);
+    const $impossible = $("<div class='menu impossible'>impossible</div>");
+    $("body").append($impossible);
+    $(".normal").on("click", function () {
+        gameSpeed = 125;
+        $normal.remove();
+        $hard.remove();
+        $impossible.remove();
+        startGame();
+    });
+    $(".hard").on("click", function () {
+        gameSpeed = 75;
+        $normal.remove();
+        $hard.remove();
+        $impossible.remove();
+        startGame();
+    });
+    $(".impossible").on("click", function () {
+        gameSpeed = 45;
+        $normal.remove();
+        $hard.remove();
+        $impossible.remove();
+        startGame();
+    });
+}
 
 // Listens for click on the play button, on click removes menu items and generates board
-$(".start-button").on("click", startGame);
+$(".start-button").on("click", difficultySelect);

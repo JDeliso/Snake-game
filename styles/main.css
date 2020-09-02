@@ -13,13 +13,44 @@ body {
     align-self: center;
     justify-self: center;
     font-size: 2em;
+    z-index: 4;
+}
+
+.normal {
+    position: absolute;
+    top: 15em;
+    font-size: 1.5em;
+    left: 4em;
+}
+
+.hard {
+    position: absolute;
+    top: 15em;
+    font-size: 1.5em;
+    left: 14em;
+}
+
+.impossible {
+    position: absolute;
+    top: 15em;
+    font-size: 1.5em;
+    left: 21em;
 }
 
 .retry {
-    z-index: 4;
     position: absolute;
-    top: 16em;
+    top: 15em;
+    left: 6em;
 }
+
+.change-difficulty {
+    position: absolute;
+    top: 15em;
+    left: 11em;
+    text-align: center;
+}
+
+
 
 .menu:hover {
     color: #FFF8DC;
