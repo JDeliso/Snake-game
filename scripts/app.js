@@ -40,6 +40,7 @@ function generateBoard(size) {
     };
 };
 
+// finds a valid egg and generates it on the game board
 function generateEgg() {
     let validEgg = false;
     let eggLocation;
@@ -62,6 +63,7 @@ function generateEgg() {
     }
 }
 
+// deletes the last bit of the snake in preperation to move
 function move() {
     const tail = snake[snake.length - 1];
     let $cell = $('.cell');
@@ -72,6 +74,7 @@ function move() {
         }
     }
 }
+
 
 function moveLeft() {
     currentDirection = "W";
@@ -133,6 +136,7 @@ function moveDown() {
     generateSnake();
 }
 
+// detects input and sets current direction to corresponding input
 function detectInput() {
     document.addEventListener('keydown', function(e) {
         // Left Input
@@ -154,6 +158,7 @@ function detectInput() {
     });
 }
 
+// checks if you pickup an egg and will allow growth on next move
 function eggPickup() {
     if (snake[0] == currentEggLocation) {
         newSnakeSegment = snake[snake.length - 1];
@@ -164,6 +169,7 @@ function eggPickup() {
     }
 }
 
+// checks if its supposed to grow and grows
 function grow() {
     if (willGrow) {
         snake.push(newSnakeSegment);
@@ -171,6 +177,7 @@ function grow() {
     }
 }
 
+// checks if snake touches its tail
 function touchTail() {
     for (let i = 1; i < snake.length; i++){
         if (snake[0] == snake[i]) {
@@ -180,6 +187,7 @@ function touchTail() {
     }
 }
 
+// checks if snake touches the west wall
 function westWallCheck() {
     for (let i = -1; i < gameSize * gameSize; i = i + 20){
         if (snake[0] == i) {
@@ -188,6 +196,7 @@ function westWallCheck() {
     }
 }
 
+// checks if snake touches the other walls
 function touchWall() {
     if (snake[0] < 1) {
         gameOverScreen();
@@ -209,6 +218,7 @@ function touchWall() {
     }
 }
 
+// if you hit the left or right wall you will scroll so this cuts off the head so you dont see it pop out on the other side when you game over
 function cutSnake() {
     const $cell = $(".cell");
     for (let i in $cell) {
@@ -219,6 +229,7 @@ function cutSnake() {
     }
 }
 
+// displays the game over screen
 function gameOverScreen() {
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
     const $main = $("main");
@@ -232,8 +243,10 @@ function gameOverScreen() {
     currentDirection = "N";
 }
 
+// starts the game
 function startGame() {
     generateBoard(gameSize);
+    updateScore();
     startTimer();
     generateSnakeStart();
     generateSnake();
@@ -242,6 +255,7 @@ function startGame() {
     setTimeout(mainLoop, 4000);
 }
 
+// main logic loop
 function mainLoop() {
     const game = setInterval(function () {
         eggPickup();
@@ -267,10 +281,12 @@ function mainLoop() {
             console.log("uh oh");
             clearInterval(game);
         }
-    grow();
+        grow();
+        updateScore();
     }, gameSpeed);
 }
 
+// resets the snake
 function generateSnakeStart() {
     snake.splice(0, snake.length);
     for (let i = 0; i < newSnake.length; i++){
@@ -278,25 +294,28 @@ function generateSnakeStart() {
     }
 }
 
+// restarts the game
 function restart() {
     generateSnake();
     startGame();
 }
 
+// starts countdown timer
 function startTimer() {
     timerIndex = 3;
     const timer = setInterval(function () {
-        $(".game-over").remove();
+        $(".timer").remove();
         if (timerIndex == 0) {
             return clearInterval(timer);
         }
-        const $time = $(`<div class='game-over'>${timerIndex}</div>`);
+        const $time = $(`<div class='timer'>${timerIndex}</div>`);
         $("body").append($time);
         timerIndex--;
         currentDirection = "N";
     }, 1000);
 }
 
+// displays the difficulty select screen
 function difficultySelect() {
     $("main").empty();
     const $normal = $("<div class='menu normal'>normal</div>");
@@ -317,6 +336,13 @@ function difficultySelect() {
         gameSpeed = 45;
         restart();
     });
+}
+
+function updateScore() {
+    const score = (snake.length - 3) * 25;
+    const $score = $(`<div class='score'>Score: ${score}</div>`);
+    $(".score").remove();
+    $("body").append($score);
 }
 
 // Listens for click on the play button, on click removes menu items and generates board

@@ -6,7 +6,9 @@ body {
     background-color: #2F4F4F;
     font-family: 'Press Start 2P', cursive;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 main {
@@ -15,6 +17,11 @@ main {
     width: 75vh;
     height: 75vh;
     background-color: #8FBC8F;
+}
+
+.score {
+    min-width: 75vh;
+    text-justify: left;
 }
 
 .menu {
@@ -61,6 +68,14 @@ main {
 
 .game-over span {
     display: block;
+}
+
+.timer {
+    position: absolute;
+    z-index: 4;
+    margin-top: -20%;
+    margin-left: 0;
+    font-size: 8em;
 }
 
 .game-board{
