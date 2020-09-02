@@ -1,5 +1,6 @@
 console.log("Hello World");
 
+// SECTION global variables
 const gameSize = 20;
 const snakeStart = Math.floor((gameSize * gameSize) / 2) + (gameSize / 2);
 const newSnake = [snakeStart, snakeStart + 20, snakeStart + 40];
@@ -12,7 +13,7 @@ let gameSpeed = 75;
 let restartGame = false;
 
 
-
+// SECTION snake functions
 // generates the snake each tick
 function generateSnake() {
     let $cell = $('.cell');
@@ -26,43 +27,35 @@ function generateSnake() {
     }
 }
 
-// generates board on tick start
-function generateBoard(size) {
-    $("main").empty();
-    $("main").append("<section class='game-board'></section>");
-    const $gameBoard = $(".game-board");
-    $gameBoard.css('--grid-size', size);
-    
-    for (let i = 0; i < (size * size); i++) {
-        const $cell = $("<div class='cell'></div>");
-        $cell.textext = (i + 1);
-        $gameBoard.append($cell);
-    };
-};
-
-// finds a valid egg and generates it on the game board
-function generateEgg() {
-    let validEgg = false;
-    let eggLocation;
-    while (!validEgg) {
-        validEgg = true;
-        eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
-        for (let i = 0; i < snake.length; i++) {
-            if (eggLocation == snake[i]) {
-                validEgg = false;
-            }
-        }
-    }
-    let $cell = $('.cell');
-    currentEggLocation = eggLocation;
-    for (let j in $cell) {
-        if (j == eggLocation) {
-            const $eggCell = $cell[j];
-            $eggCell.classList.add("egg-cell");
-        }
+// resets the snake
+function generateSnakeStart() {
+    snake.splice(0, snake.length);
+    for (let i = 0; i < newSnake.length; i++){
+        snake.push(newSnake[i]);
     }
 }
 
+
+// SECTION snake eggPickup functions
+// checks if you pickup an egg and will allow growth on next move
+function eggPickup() {
+    if (snake[0] == currentEggLocation) {
+        newSnakeSegment = snake[snake.length - 1];
+        $cell = $('.cell');
+        $cell[currentEggLocation].classList.remove("egg-cell");
+        generateEgg();
+        willGrow = true;
+        eggPickupSound();
+    }
+}
+
+function eggPickupSound() {
+    $("#pickup-audio").remove();
+    const $audio = $("<audio id='pickup-audio' src='./sounds/laser1.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+// SECTION snake moving functions
 // deletes the last bit of the snake in preperation to move
 function move() {
     const tail = snake[snake.length - 1];
@@ -136,40 +129,6 @@ function moveDown() {
     generateSnake();
 }
 
-// detects input and sets current direction to corresponding input
-function detectInput() {
-    document.addEventListener('keydown', function(e) {
-        // Left Input
-        if ((e.keyCode == 37 && lastDirection == "N") || (e.keyCode == 37 && lastDirection == "S")) {
-            currentDirection = "W";
-        }
-        // Up input
-        if ((e.keyCode == 38 && lastDirection == "W") || (e.keyCode == 38 && lastDirection == "E")) {
-            currentDirection = "N";
-        }
-        // right input
-        if ((e.keyCode == 39 && lastDirection == "N") || (e.keyCode == 39 && lastDirection == "S")) {
-            currentDirection = "E";
-        }
-        // down input
-        if ((e.keyCode == 40 && lastDirection == "W") || (e.keyCode == 40 && lastDirection == "E")) {
-            currentDirection = "S";
-        }
-    });
-}
-
-// checks if you pickup an egg and will allow growth on next move
-function eggPickup() {
-    if (snake[0] == currentEggLocation) {
-        newSnakeSegment = snake[snake.length - 1];
-        $cell = $('.cell');
-        $cell[currentEggLocation].classList.remove("egg-cell");
-        generateEgg();
-        willGrow = true;
-        eggPickupSound();
-    }
-}
-
 // checks if its supposed to grow and grows
 function grow() {
     if (willGrow) {
@@ -178,6 +137,7 @@ function grow() {
     }
 }
 
+// SECTION snake death check functions
 // checks if snake touches its tail
 function touchTail() {
     for (let i = 1; i < snake.length; i++){
@@ -219,6 +179,17 @@ function touchWall() {
     }
 }
 
+function deadSnake() {
+    const $cell = $(".snake-cell");
+    $cell.addClass("dead-snake")
+}
+
+function deathSound() {
+    $("#death-audio").remove();
+    const $audio = $("<audio id='death-audio' src='./sounds/8bit_bomb_explosion.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
 // if you hit the left or right wall you will scroll so this cuts off the head so you dont see it pop out on the other side when you game over
 function cutSnake() {
     const $cell = $(".cell");
@@ -230,18 +201,72 @@ function cutSnake() {
     }
 }
 
-// displays the game over screen
-function gameOverScreen() {
-    const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
-    const $main = $("main");
-    const $retry = $("<div class='retry menu'>retry</div>");
-    const $changeDifficulty = $("<div class='change-difficulty menu'>change <span>difficulty</span></div>");
-    $main.append($gameOver);
-    $main.append($retry);
-    $main.append($changeDifficulty);
-    $(".retry").on("click", restart);
-    $(".change-difficulty").on("click", difficultySelect);
-    currentDirection = "N";
+// SECTION input function
+// detects input and sets current direction to corresponding input
+function detectInput() {
+    document.addEventListener('keydown', function(e) {
+        // Left Input
+        if ((e.keyCode == 37 && lastDirection == "N") || (e.keyCode == 37 && lastDirection == "S")) {
+            currentDirection = "W";
+        }
+        // Up input
+        if ((e.keyCode == 38 && lastDirection == "W") || (e.keyCode == 38 && lastDirection == "E")) {
+            currentDirection = "N";
+        }
+        // right input
+        if ((e.keyCode == 39 && lastDirection == "N") || (e.keyCode == 39 && lastDirection == "S")) {
+            currentDirection = "E";
+        }
+        // down input
+        if ((e.keyCode == 40 && lastDirection == "W") || (e.keyCode == 40 && lastDirection == "E")) {
+            currentDirection = "S";
+        }
+    });
+}
+
+
+// SECTION board functions
+// generates board on tick start
+function generateBoard(size) {
+    $("main").empty();
+    $("main").append("<section class='game-board'></section>");
+    const $gameBoard = $(".game-board");
+    $gameBoard.css('--grid-size', size);
+    
+    for (let i = 0; i < (size * size); i++) {
+        const $cell = $("<div class='cell'></div>");
+        $cell.textext = (i + 1);
+        $gameBoard.append($cell);
+    };
+}
+
+// finds a valid egg and generates it on the game board
+function generateEgg() {
+    let validEgg = false;
+    let eggLocation;
+    while (!validEgg) {
+        validEgg = true;
+        eggLocation = Math.floor(Math.random() * (gameSize * gameSize));
+        for (let i = 0; i < snake.length; i++) {
+            if (eggLocation == snake[i]) {
+                validEgg = false;
+            }
+        }
+    }
+    let $cell = $('.cell');
+    currentEggLocation = eggLocation;
+    for (let j in $cell) {
+        if (j == eggLocation) {
+            const $eggCell = $cell[j];
+            $eggCell.classList.add("egg-cell");
+        }
+    }
+}
+
+// restarts the game
+function restart() {
+    generateSnake();
+    startGame();
 }
 
 // starts the game
@@ -256,6 +281,83 @@ function startGame() {
     setTimeout(mainLoop, 4000);
 }
 
+// SECTION menu functions
+// displays the game over screen
+function gameOverScreen() {
+    const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
+    const $main = $("main");
+    const $retry = $("<div class='retry menu'>retry</div>");
+    const $changeDifficulty = $("<div class='change-difficulty menu'>change <span>difficulty</span></div>");
+    $main.append($gameOver);
+    $main.append($retry);
+    $main.append($changeDifficulty);
+    $(".retry").on("click", restart);
+    $(".change-difficulty").on("click", difficultySelect);
+    currentDirection = "N";
+}
+
+// displays the difficulty select screen
+function difficultySelect() {
+    $("main").empty();
+    const $normal = $("<div class='menu normal'>normal</div>");
+    $("main").append($normal);
+    const $hard = $("<div class='menu hard'>hard</div>");
+    $("main").append($hard);
+    const $impossible = $("<div class='menu impossible'>impossible</div>");
+    $("main").append($impossible);
+    $(".normal").on("click", function () {
+        gameSpeed = 125;
+        restart();
+    });
+    $(".hard").on("click", function () {
+        gameSpeed = 75;
+        restart();
+    });
+    $(".impossible").on("click", function () {
+        gameSpeed = 45;
+        restart();
+    });
+}
+
+function updateScore() {
+    const score = (snake.length - 3) * 25;
+    const $score = $(`<div class='score'>Score: ${score}</div>`);
+    $(".score").remove();
+    $("body").append($score);
+}
+
+// SECTION countdown functions
+// starts countdown timer
+function startTimer() {
+    timerIndex = 3;
+    const timer = setInterval(function () {
+        $(".timer").remove();
+        if (timerIndex == 0) {
+            startSound();
+            return clearInterval(timer);
+        }
+        countdownSound();
+        const $time = $(`<div class='timer'>${timerIndex}</div>`);
+        $("body").append($time);
+        timerIndex--;
+        currentDirection = "N";
+    }, 1000);
+}
+
+function countdownSound() {
+    $("#countdown-audio").remove();
+    const $audio = $("<audio id='countdown-audio' src='./sounds/countdown.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+function startSound() {
+    $("#start-audio").remove();
+    const $audio = $("<audio id='countdown-audio' src='./sounds/start.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+
+// SECTION MAIN GAME LOOP
 // main logic loop
 function mainLoop() {
     const game = setInterval(function () {
@@ -291,95 +393,9 @@ function mainLoop() {
     }, gameSpeed);
 }
 
-// resets the snake
-function generateSnakeStart() {
-    snake.splice(0, snake.length);
-    for (let i = 0; i < newSnake.length; i++){
-        snake.push(newSnake[i]);
-    }
-}
 
-// restarts the game
-function restart() {
-    generateSnake();
-    startGame();
-}
 
-// starts countdown timer
-function startTimer() {
-    timerIndex = 3;
-    const timer = setInterval(function () {
-        $(".timer").remove();
-        if (timerIndex == 0) {
-            startSound();
-            return clearInterval(timer);
-        }
-        countdownSound();
-        const $time = $(`<div class='timer'>${timerIndex}</div>`);
-        $("body").append($time);
-        timerIndex--;
-        currentDirection = "N";
-    }, 1000);
-}
 
-// displays the difficulty select screen
-function difficultySelect() {
-    $("main").empty();
-    const $normal = $("<div class='menu normal'>normal</div>");
-    $("main").append($normal);
-    const $hard = $("<div class='menu hard'>hard</div>");
-    $("main").append($hard);
-    const $impossible = $("<div class='menu impossible'>impossible</div>");
-    $("main").append($impossible);
-    $(".normal").on("click", function () {
-        gameSpeed = 125;
-        restart();
-    });
-    $(".hard").on("click", function () {
-        gameSpeed = 75;
-        restart();
-    });
-    $(".impossible").on("click", function () {
-        gameSpeed = 45;
-        restart();
-    });
-}
-
-function updateScore() {
-    const score = (snake.length - 3) * 25;
-    const $score = $(`<div class='score'>Score: ${score}</div>`);
-    $(".score").remove();
-    $("body").append($score);
-}
-
-function deadSnake() {
-    const $cell = $(".snake-cell");
-    $cell.addClass("dead-snake")
-}
-
-function eggPickupSound() {
-    $("#pickup-audio").remove();
-    const $audio = $("<audio id='pickup-audio' src='./sounds/laser1.wav' autoplay='false'></audio>");
-    $("body").append($audio);
-}
-
-function deathSound() {
-    $("#death-audio").remove();
-    const $audio = $("<audio id='death-audio' src='./sounds/8bit_bomb_explosion.wav' autoplay='false'></audio>");
-    $("body").append($audio);
-}
-
-function countdownSound() {
-    $("#countdown-audio").remove();
-    const $audio = $("<audio id='countdown-audio' src='./sounds/countdown.wav' autoplay='false'></audio>");
-    $("body").append($audio);
-}
-
-function startSound() {
-    $("#start-audio").remove();
-    const $audio = $("<audio id='countdown-audio' src='./sounds/start.wav' autoplay='false'></audio>");
-    $("body").append($audio);
-}
 
 // Listens for click on the play button, on click removes menu items and generates board
 $(".start-button").on("click", difficultySelect);
