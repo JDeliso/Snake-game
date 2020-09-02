@@ -299,6 +299,8 @@ function startTimer() {
 
 function difficultySelect() {
     $(".start-button").remove();
+    $(".game-over").remove();
+    $(".menu").remove();
     const $normal = $("<div class='menu normal'>normal</div>");
     $("body").append($normal);
     const $hard = $("<div class='menu hard'>hard</div>");
@@ -307,24 +309,15 @@ function difficultySelect() {
     $("body").append($impossible);
     $(".normal").on("click", function () {
         gameSpeed = 125;
-        $normal.remove();
-        $hard.remove();
-        $impossible.remove();
-        startGame();
+        restart();
     });
     $(".hard").on("click", function () {
         gameSpeed = 75;
-        $normal.remove();
-        $hard.remove();
-        $impossible.remove();
-        startGame();
+        restart();
     });
     $(".impossible").on("click", function () {
         gameSpeed = 45;
-        $normal.remove();
-        $hard.remove();
-        $impossible.remove();
-        startGame();
+        restart();
     });
 }
 
