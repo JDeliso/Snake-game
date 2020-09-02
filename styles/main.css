@@ -110,3 +110,7 @@ main {
     text-align: center;
     background-color: black;
 }
+
+.dead-snake{
+    background-color: #778899;
+}

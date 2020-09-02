@@ -275,10 +275,12 @@ function mainLoop() {
         }
         if (touchTail()) {
             console.log("uh oh");
+            deadSnake();
             clearInterval(game);
         }
         if (touchWall()) {
             console.log("uh oh");
+            deadSnake();
             clearInterval(game);
         }
         grow();
@@ -343,6 +345,11 @@ function updateScore() {
     const $score = $(`<div class='score'>Score: ${score}</div>`);
     $(".score").remove();
     $("body").append($score);
+}
+
+function deadSnake() {
+    const $cell = $(".snake-cell");
+    $cell.addClass("dead-snake")
 }
 
 // Listens for click on the play button, on click removes menu items and generates board
