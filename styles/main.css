@@ -9,6 +9,14 @@ body {
     justify-content: center;
 }
 
+main {
+    display: flex;
+    justify-content: space-around;
+    width: 75vh;
+    height: 75vh;
+    background-color: #8FBC8F;
+}
+
 .menu {
     align-self: center;
     justify-self: center;
@@ -16,38 +24,22 @@ body {
     z-index: 4;
 }
 
-.normal {
-    position: absolute;
-    top: 15em;
-    font-size: 1.5em;
-    left: 4em;
-}
-
-.hard {
-    position: absolute;
-    top: 15em;
-    font-size: 1.5em;
-    left: 14em;
-}
-
-.impossible {
-    position: absolute;
-    top: 15em;
-    font-size: 1.5em;
-    left: 21em;
-}
-
 .retry {
     position: absolute;
-    top: 15em;
-    left: 6em;
+    z-index: 4;
+    margin-top: 20%;
+    margin-left: -19%;
 }
 
 .change-difficulty {
     position: absolute;
-    top: 15em;
-    left: 11em;
-    text-align: center;
+    z-index: 4;
+    margin-top: 20%;
+    margin-left: 19%;
+}
+
+.change-difficulty span {
+    display: block;
 }
 
 
@@ -61,11 +53,10 @@ body {
 
 .game-over {
     position: absolute;
-    font-size: 8em;
     z-index: 4;
-    top: 1.5em;
-    margin: -25px 0 0 -25px;
-    text-align: center;
+    margin-top: 5%;
+    margin-left: 0;
+    font-size: 8em;
 }
 
 .game-over span {

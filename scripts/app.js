@@ -28,6 +28,8 @@ function generateSnake() {
 
 // generates board on tick start
 function generateBoard(size) {
+    $("main").empty();
+    $("main").append("<section class='game-board'></section>");
     const $gameBoard = $(".game-board");
     $gameBoard.css('--grid-size', size);
     
@@ -219,12 +221,12 @@ function cutSnake() {
 
 function gameOverScreen() {
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
-    const $body = $("body");
+    const $main = $("main");
     const $retry = $("<div class='retry menu'>retry</div>");
-    const $changeDifficulty = $("<div class='change-difficulty menu'>change difficulty</div>");
-    $body.append($gameOver);
-    $body.append($retry);
-    $body.append($changeDifficulty);
+    const $changeDifficulty = $("<div class='change-difficulty menu'>change <span>difficulty</span></div>");
+    $main.append($gameOver);
+    $main.append($retry);
+    $main.append($changeDifficulty);
     $(".retry").on("click", restart);
     $(".change-difficulty").on("click", difficultySelect);
     currentDirection = "N";
@@ -277,8 +279,6 @@ function generateSnakeStart() {
 }
 
 function restart() {
-    $("body").empty();
-    $("body").append("<section class='game-board'></section>");
     generateSnake();
     startGame();
 }
@@ -298,15 +298,13 @@ function startTimer() {
 }
 
 function difficultySelect() {
-    $(".start-button").remove();
-    $(".game-over").remove();
-    $(".menu").remove();
+    $("main").empty();
     const $normal = $("<div class='menu normal'>normal</div>");
-    $("body").append($normal);
+    $("main").append($normal);
     const $hard = $("<div class='menu hard'>hard</div>");
-    $("body").append($hard);
+    $("main").append($hard);
     const $impossible = $("<div class='menu impossible'>impossible</div>");
-    $("body").append($impossible);
+    $("main").append($impossible);
     $(".normal").on("click", function () {
         gameSpeed = 125;
         restart();
