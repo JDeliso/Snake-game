@@ -166,6 +166,7 @@ function eggPickup() {
         $cell[currentEggLocation].classList.remove("egg-cell");
         generateEgg();
         willGrow = true;
+        eggPickupSound();
     }
 }
 
@@ -350,6 +351,12 @@ function updateScore() {
 function deadSnake() {
     const $cell = $(".snake-cell");
     $cell.addClass("dead-snake")
+}
+
+function eggPickupSound() {
+    $("audio").remove();
+    const $audio = $("<audio id='audio' src='./sounds/laser1.wav' autoplay='false'></audio>");
+    $("body").append($audio);
 }
 
 // Listens for click on the play button, on click removes menu items and generates board
