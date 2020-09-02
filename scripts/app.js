@@ -277,11 +277,13 @@ function mainLoop() {
         if (touchTail()) {
             console.log("uh oh");
             deadSnake();
+            deathSound();
             clearInterval(game);
         }
         if (touchWall()) {
             console.log("uh oh");
             deadSnake();
+            deathSound();
             clearInterval(game);
         }
         grow();
@@ -309,8 +311,10 @@ function startTimer() {
     const timer = setInterval(function () {
         $(".timer").remove();
         if (timerIndex == 0) {
+            startSound();
             return clearInterval(timer);
         }
+        countdownSound();
         const $time = $(`<div class='timer'>${timerIndex}</div>`);
         $("body").append($time);
         timerIndex--;
@@ -354,8 +358,26 @@ function deadSnake() {
 }
 
 function eggPickupSound() {
-    $("audio").remove();
-    const $audio = $("<audio id='audio' src='./sounds/laser1.wav' autoplay='false'></audio>");
+    $("#pickup-audio").remove();
+    const $audio = $("<audio id='pickup-audio' src='./sounds/laser1.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+function deathSound() {
+    $("#death-audio").remove();
+    const $audio = $("<audio id='death-audio' src='./sounds/8bit_bomb_explosion.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+function countdownSound() {
+    $("#countdown-audio").remove();
+    const $audio = $("<audio id='countdown-audio' src='./sounds/countdown.wav' autoplay='false'></audio>");
+    $("body").append($audio);
+}
+
+function startSound() {
+    $("#start-audio").remove();
+    const $audio = $("<audio id='countdown-audio' src='./sounds/start.wav' autoplay='false'></audio>");
     $("body").append($audio);
 }
 
