@@ -282,6 +282,28 @@ function startGame() {
 }
 
 // SECTION menu functions
+// displays the main menu
+function displayMenu() {
+    $('.window').empty();
+    const $play = $("<div class='start-button menu'>PLAY</div>");
+    const $instructions = $("<div class='instructions-button menu'>Instructions</div>");
+    $('.window').append($play);
+    $('.window').append($instructions);
+    // Listens for click on the play button, on click removes menu items and generates board
+    $(".start-button").on("click", difficultySelect);
+    $(".instructions-button").on("click", displayInstructions);
+}
+
+// displays the instructions
+function displayInstructions() {
+    $(".window").empty();
+    const $instructions = $("<div class='instructions'>Use your arrow keys to collect eggs to grow your snake, but don't forget to avoid your own tail and the walls!</div>");
+    const $back = $("<div class='menu back'>back</div>");
+    $(".window").append($instructions);
+    $(".window").append($back);
+    $(".menu").on("click", displayMenu);
+}
+
 // displays the game over screen
 function gameOverScreen() {
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
@@ -393,9 +415,5 @@ function mainLoop() {
     }, gameSpeed);
 }
 
+displayMenu();
 
-
-
-
-// Listens for click on the play button, on click removes menu items and generates board
-$(".start-button").on("click", difficultySelect);

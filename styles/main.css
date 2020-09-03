@@ -35,14 +35,14 @@ main {
     position: absolute;
     z-index: 4;
     margin-top: 20%;
-    margin-left: -19%;
+    margin-left: -25%;
 }
 
 .change-difficulty {
     position: absolute;
     z-index: 4;
     margin-top: 20%;
-    margin-left: 19%;
+    margin-left: 22%;
 }
 
 .change-difficulty span {
@@ -56,6 +56,16 @@ main {
     transform: scale(1.1);
     cursor: pointer;
     transition: .3s linear;
+}
+
+.instructions {
+    margin: 20% 5%;
+    font-size: 1.5em;
+}
+
+.back {
+    position: absolute;
+    margin: 0 auto;
 }
 
 .game-over {
