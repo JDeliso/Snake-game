@@ -11,6 +11,13 @@ let currentEggLocation, newSnakeSegment;
 let willGrow = false;
 let gameSpeed = 75;
 let restartGame = false;
+let highScore = 0;
+
+// sets up high score
+let localStorage = window.localStorage;
+if(localStorage.getItem("highScore")){
+    highScore = localStorage.getItem("highScore").toString();
+}
 
 
 // SECTION snake functions
@@ -273,6 +280,7 @@ function restart() {
 function startGame() {
     generateBoard(gameSize);
     updateScore();
+    displayHighScore();
     startTimer();
     generateSnakeStart();
     generateSnake();
@@ -346,6 +354,12 @@ function updateScore() {
     const $score = $(`<div class='score'>Score: ${score}</div>`);
     $(".score").remove();
     $("body").append($score);
+    displayHighScore();
+}
+
+function displayHighScore(){
+    const $highScore = $(`<div class='score'>High Score: ${highScore}</div>`);
+    $("body").append($highScore);
 }
 
 // SECTION countdown functions
