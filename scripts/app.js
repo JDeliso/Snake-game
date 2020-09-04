@@ -308,6 +308,7 @@ function displayInstructions() {
 
 // displays the game over screen
 function gameOverScreen() {
+    endOfGame = true;
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
     const $main = $("main");
     const $retry = $("<div class='retry menu'>retry</div>");
@@ -317,6 +318,12 @@ function gameOverScreen() {
     $main.append($changeDifficulty);
     $(".retry").on("click", restart);
     $(".change-difficulty").on("click", difficultySelect);
+    document.addEventListener('keydown', function(e){
+        if((e.keyCode == 32 || e.keyCode == 13) && endOfGame){
+            endOfGame = false;
+            restart();
+        }
+    });    
     currentDirection = "N";
 }
 
@@ -418,4 +425,3 @@ function mainLoop() {
 }
 
 displayMenu();
-
