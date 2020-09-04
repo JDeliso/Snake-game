@@ -317,6 +317,11 @@ function gameOverScreen() {
     $main.append($changeDifficulty);
     $(".retry").on("click", restart);
     $(".change-difficulty").on("click", difficultySelect);
+    document.addEventListener('keydown', function(e){
+        if(e.keyCode == 32 || e.keyCode == 13){
+            restart();
+        }
+    });    
     currentDirection = "N";
 }
 
@@ -418,4 +423,3 @@ function mainLoop() {
 }
 
 displayMenu();
-
