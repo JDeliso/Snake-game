@@ -30,6 +30,11 @@ main {
     text-justify: left;
 }
 
+.high-score {
+    min-width: 75vh;
+    text-justify: left;
+}
+
 .menu {
     align-self: center;
     justify-self: center;
