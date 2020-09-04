@@ -367,43 +367,44 @@ function updateScore() {
 }
 
 function updateHighScore(){
+    const score = (snake.length-3)*25;
     switch (currentDifficulty){
         case "n":
             if(highScores.getItem(`n`) == null){
-                highScores.setItem('n', (snake.length-3)*25);
+                highScores.setItem('n', score);
                 displayHighScore("n");
             }
-            else if(highScores.getItem('n') > (snake.length-3)*25){
+            else if(highScores.getItem('n') > score){
                 displayHighScore("n");
             }
-            else if(highScores.getItem(`n`) < (snake.length-3)*25){
-                highScores.setItem('n', (snake.length-3)*25);
+            else if(highScores.getItem(`n`) < score){
+                highScores.setItem('n', score);
                 displayHighScore("n");
             }
             break;
         case "h":
             if(highScores.getItem(`h`) == null){
-                highScores.setItem('h', (snake.length-3)*25);
+                highScores.setItem('h', score);
                 displayHighScore("h");
             }
-            else if(highScores.getItem('h') > (snake.length-3)*25){
+            else if(highScores.getItem('h') > score){
                 displayHighScore("h");
             }
-            else if(highScores.getItem(`h`) < (snake.length-3)*25){
-                highScores.setItem('h', (snake.length-3)*25);
+            else if(highScores.getItem(`h`) < score){
+                highScores.setItem('h', score);
                 displayHighScore("h");
             }
             break;
         case "i":
             if(highScores.getItem(`i`) == null){
-                highScores.setItem('i', (snake.length-3)*25);
+                highScores.setItem('i', score);
                 displayHighScore("i");
             }
-            else if(highScores.getItem('i') > (snake.length-3)*25){
+            else if(highScores.getItem('i') > score){
                 displayHighScore("i");
             }
-            else if(highScores.getItem(`i`) < (snake.length-3)*25){
-                highScores.setItem('i', (snake.length-3)*25);
+            else if(highScores.getItem(`i`) < score){
+                highScores.setItem('i', score);
                 displayHighScore("i");
             }
             break;
