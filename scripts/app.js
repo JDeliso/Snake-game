@@ -11,14 +11,6 @@ let currentEggLocation, newSnakeSegment;
 let willGrow = false;
 let gameSpeed = 75;
 let restartGame = false;
-let highScore = 0;
-
-// sets up high score
-let localStorage = window.localStorage;
-if(localStorage.getItem("highScore")){
-    highScore = localStorage.getItem("highScore").toString();
-}
-
 
 // SECTION snake functions
 // generates the snake each tick
@@ -187,8 +179,10 @@ function touchWall() {
 }
 
 function deadSnake() {
-    const $cell = $(".snake-cell");
-    $cell.addClass("dead-snake")
+    const $snakeCell = $(".snake-cell");
+    const $eggCell = $(".egg-cell");
+    $snakeCell.addClass("dead-snake");
+    $eggCell.addClass("dead-snake");
 }
 
 function deathSound() {
@@ -270,6 +264,7 @@ function generateEgg() {
     }
 }
 
+// SECTION starts and restarts the game
 // restarts the game
 function restart() {
     generateSnake();
@@ -280,7 +275,6 @@ function restart() {
 function startGame() {
     generateBoard(gameSize);
     updateScore();
-    displayHighScore();
     startTimer();
     generateSnakeStart();
     generateSnake();
@@ -294,7 +288,7 @@ function startGame() {
 function displayMenu() {
     $('.window').empty();
     const $play = $("<div class='start-button menu'>PLAY</div>");
-    const $instructions = $("<div class='instructions-button menu'>Instructions</div>");
+    const $instructions = $("<div class='instructions-button menu'>INSTRUCTIONS</div>");
     $('.window').append($play);
     $('.window').append($instructions);
     // Listens for click on the play button, on click removes menu items and generates board
@@ -354,12 +348,6 @@ function updateScore() {
     const $score = $(`<div class='score'>Score: ${score}</div>`);
     $(".score").remove();
     $("body").append($score);
-    displayHighScore();
-}
-
-function displayHighScore(){
-    const $highScore = $(`<div class='score'>High Score: ${highScore}</div>`);
-    $("body").append($highScore);
 }
 
 // SECTION countdown functions
