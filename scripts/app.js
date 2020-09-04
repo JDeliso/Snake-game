@@ -149,7 +149,7 @@ function touchTail() {
 
 // checks if snake touches the west wall
 function westWallCheck() {
-    for (let i = -1; i < gameSize * gameSize; i = i + 20){
+    for (let i = -1; i < gameSize * gameSize; i = i + gameSize){
         if (snake[0] == i) {
             return true;
         }
@@ -158,7 +158,7 @@ function westWallCheck() {
 
 // checks if snake touches the other walls
 function touchWall() {
-    if (snake[0] < 1) {
+    if (snake[0] < 0) {
         gameOverScreen();
         return true;
     }
@@ -227,7 +227,7 @@ function detectInput() {
 
 
 // SECTION board functions
-// generates board on tick start
+// generates board on game start
 function generateBoard(size) {
     $("main").empty();
     $("main").append("<section class='game-board'></section>");
