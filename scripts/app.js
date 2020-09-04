@@ -280,7 +280,6 @@ function startGame() {
     generateSnakeStart();
     generateSnake();
     updateScore();
-    updateHighScore();
     generateEgg();
     detectInput();
     setTimeout(mainLoop, 4000);
@@ -415,7 +414,7 @@ function updateHighScore(){
 function displayHighScore(difficulty){
     const $highScore = $(`<div class='high-score'>High Score: ${highScores.getItem(difficulty, (snake.length-3)*25)}</div>`);
         $(".high-score").remove();
-        $("body").append($highScore);
+        $(".score").after($highScore);
 }
 
 // SECTION countdown functions
