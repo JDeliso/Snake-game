@@ -158,7 +158,7 @@ function westWallCheck() {
 
 // checks if snake touches the other walls
 function touchWall() {
-    if (snake[0] < 1) {
+    if (snake[0] < 0) {
         gameOverScreen();
         return true;
     }
