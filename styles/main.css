@@ -19,6 +19,12 @@ main {
     background-color: #8FBC8F;
 }
 
+.title {
+    position: absolute;
+    font-size: 6em;
+    margin: 5% auto;
+}
+
 .score {
     min-width: 75vh;
     text-justify: left;
