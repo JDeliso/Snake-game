@@ -287,8 +287,10 @@ function startGame() {
 // displays the main menu
 function displayMenu() {
     $('.window').empty();
+    const $title = $("<div class='title'>Snek</div>");
     const $play = $("<div class='start-button menu'>PLAY</div>");
     const $instructions = $("<div class='instructions-button menu'>INSTRUCTIONS</div>");
+    $('.window').append($title);
     $('.window').append($play);
     $('.window').append($instructions);
     // Listens for click on the play button, on click removes menu items and generates board
