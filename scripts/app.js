@@ -11,6 +11,8 @@ let currentEggLocation, newSnakeSegment;
 let willGrow = false;
 let gameSpeed = 75;
 let restartGame = false;
+let highScores = window.localStorage;
+let currentDifficulty;
 
 // SECTION snake functions
 // generates the snake each tick
@@ -274,10 +276,11 @@ function restart() {
 // starts the game
 function startGame() {
     generateBoard(gameSize);
-    updateScore();
     startTimer();
     generateSnakeStart();
     generateSnake();
+    updateScore();
+    updateHighScore();
     generateEgg();
     detectInput();
     setTimeout(mainLoop, 4000);
@@ -311,6 +314,7 @@ function displayInstructions() {
 // displays the game over screen
 function gameOverScreen() {
     endOfGame = true;
+    updateScore();
     const $gameOver = $("<div class='game-over'> Game <span>Over</span><div>");
     const $main = $("main");
     const $retry = $("<div class='retry menu'>retry</div>");
@@ -339,14 +343,17 @@ function difficultySelect() {
     const $impossible = $("<div class='menu impossible'>impossible</div>");
     $("main").append($impossible);
     $(".normal").on("click", function () {
+        currentDifficulty = "n";
         gameSpeed = 125;
         restart();
     });
     $(".hard").on("click", function () {
+        currentDifficulty = "h";
         gameSpeed = 75;
         restart();
     });
     $(".impossible").on("click", function () {
+        currentDifficulty = "i";
         gameSpeed = 45;
         restart();
     });
@@ -357,6 +364,58 @@ function updateScore() {
     const $score = $(`<div class='score'>Score: ${score}</div>`);
     $(".score").remove();
     $("body").append($score);
+    updateHighScore();
+}
+
+function updateHighScore(){
+    switch (currentDifficulty){
+        case "n":
+            if(highScores.getItem(`n`) == null){
+                highScores.setItem('n', (snake.length-3)*25);
+                displayHighScore("n");
+            }
+            else if(highScores.getItem('n') > (snake.length-3)*25){
+                displayHighScore("n");
+            }
+            else if(highScores.getItem(`n`) < (snake.length-3)*25){
+                highScores.setItem('n', (snake.length-3)*25);
+                displayHighScore("n");
+            }
+            break;
+        case "h":
+            if(highScores.getItem(`h`) == null){
+                highScores.setItem('h', (snake.length-3)*25);
+                displayHighScore("h");
+            }
+            else if(highScores.getItem('h') > (snake.length-3)*25){
+                displayHighScore("h");
+            }
+            else if(highScores.getItem(`h`) < (snake.length-3)*25){
+                highScores.setItem('h', (snake.length-3)*25);
+                displayHighScore("h");
+            }
+            break;
+        case "i":
+            if(highScores.getItem(`i`) == null){
+                highScores.setItem('i', (snake.length-3)*25);
+                displayHighScore("i");
+            }
+            else if(highScores.getItem('i') > (snake.length-3)*25){
+                displayHighScore("i");
+            }
+            else if(highScores.getItem(`i`) < (snake.length-3)*25){
+                highScores.setItem('i', (snake.length-3)*25);
+                displayHighScore("i");
+            }
+            break;
+    }
+
+}
+
+function displayHighScore(difficulty){
+    const $highScore = $(`<div class='high-score'>High Score: ${highScores.getItem(difficulty, (snake.length-3)*25)}</div>`);
+        $(".high-score").remove();
+        $("body").append($highScore);
 }
 
 // SECTION countdown functions
