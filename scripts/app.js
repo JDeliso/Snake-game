@@ -319,12 +319,8 @@ function gameOverScreen() {
     $(".retry").on("click", restart);
     $(".change-difficulty").on("click", difficultySelect);
     document.addEventListener('keydown', function(e){
-<<<<<<< HEAD
-        if(e.keyCode == 32 || e.keyCode == 13){
-=======
         if((e.keyCode == 32 || e.keyCode == 13) && endOfGame){
             endOfGame = false;
->>>>>>> master
             restart();
         }
     });    
